@@ -4,7 +4,7 @@ An AI-powered note generator and writing assistant for your **Obsidian vault**, 
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | What it does |
 |---|---|
@@ -15,7 +15,7 @@ An AI-powered note generator and writing assistant for your **Obsidian vault**, 
 
 ---
 
-## 🚀 Setup (Step-by-Step)
+## Setup (Step-by-Step)
 
 ### 1. Install Python
 
@@ -29,7 +29,7 @@ Make sure to check **"Add Python to PATH"** during installation.
 3. Click **"Create API key"**
 4. Copy it — it looks like `AIzaSy...`
 
-> ✅ No credit card required. The free tier gives you 1,500 requests/day — more than enough for personal use.
+> No credit card required. The free tier gives you 1,500 requests/day — more than enough for personal use.
 
 ### 3. Install dependencies
 
@@ -39,7 +39,7 @@ Open a terminal (Command Prompt or PowerShell on Windows) **inside this folder**
 pip install -r requirements.txt
 ```
 
-> 💡 To open a terminal inside the folder: click the address bar at the top of the folder, type `cmd`, and press Enter.
+> To open a terminal inside the folder: click the address bar at the top of the folder, type `cmd`, and press Enter.
 
 ### 4. Run the script
 
@@ -55,7 +55,7 @@ Both are saved so you won't be asked again.
 
 ---
 
-## 📁 File Structure
+## File Structure
 
 ```
 obsidian-ai-assistant/
@@ -68,14 +68,14 @@ obsidian-ai-assistant/
 
 ---
 
-## 🔐 Security Note
+## Security Note
 
 Your API key is stored in `config.json` in plain text.
 **Do not commit `config.json` to GitHub.** The included `.gitignore` handles this automatically — just don't delete it.
 
 ---
 
-## 🛠️ Templates
+## Templates
 
 | Name | Best for |
 |---|---|
@@ -96,7 +96,7 @@ Your API key is stored in `config.json` in plain text.
 
 ---
 
-## 🤖 Model used
+## Model used
 
 This project uses **Google Gemini 2.5 Flash** via the `google-genai` Python SDK.
 It is free to use within Google's daily rate limits (1,500 requests/day as of June 2026).
