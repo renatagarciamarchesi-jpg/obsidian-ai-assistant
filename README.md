@@ -87,7 +87,7 @@ Your API key is stored in `config.json` in plain text.
 
 ---
 
-## 💡 Tips
+## Tips
 
 - Notes are saved directly to the **root of your vault**
 - When improving a note, the original is backed up as `filename.bak.md`
@@ -103,6 +103,6 @@ It is free to use within Google's daily rate limits (1,500 requests/day as of Ju
 
 ---
 
-## 📜 License
+## License
 
 MIT — free to use, modify, and share.
