@@ -62,7 +62,7 @@ What the user is asking for now about this topic: {topic}
 
 
 def complete_note(
-    api_key: str, model: str, title: str, current_content: str, topic: str, language: str = "es"
+    api_key: str, model: str, title: str, current_content: str, topic: str, language: str = "en"
 ) -> dict:
     client = genai.Client(api_key=api_key)
 
@@ -87,7 +87,7 @@ def complete_note(
 
 
 def generate_note(
-    api_key: str, model: str, topic: str, language: str = "es", template_instructions: str = ""
+    api_key: str, model: str, topic: str, language: str = "en", template_instructions: str = ""
 ) -> dict:
     client = genai.Client(api_key=api_key)
 
@@ -136,7 +136,7 @@ Note language: {language}
 """
 
 
-def improve_note(api_key: str, model: str, current_content: str, language: str = "es") -> dict:
+def improve_note(api_key: str, model: str, current_content: str, language: str = "en") -> dict:
     """Rewrites a note so it is better structured, without inventing new content."""
     client = genai.Client(api_key=api_key)
 
@@ -175,7 +175,7 @@ Note language: {language}
 """
 
 
-def generate_tags(api_key: str, model: str, content: str, language: str = "es") -> list[str]:
+def generate_tags(api_key: str, model: str, content: str, language: str = "en") -> list[str]:
     """Suggests tags for an existing note, without modifying its content."""
     client = genai.Client(api_key=api_key)
 
@@ -193,7 +193,7 @@ def generate_tags(api_key: str, model: str, content: str, language: str = "es") 
     return data.get("tags", [])
 
 
-def create_chat(api_key: str, model: str, note_context: str | None = None, language: str = "es"):
+def create_chat(api_key: str, model: str, note_context: str | None = None, language: str = "en"):
     """
     Creates a real multi-turn chat object using the SDK (client.chats.create).
     Returns the chat object: call chat.send_message(text) for each user message.
