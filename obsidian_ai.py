@@ -93,13 +93,13 @@ def load_config() -> dict:
 def save_config(cfg: dict) -> None:
     with open(CONFIG_FILE, "w") as f:
         json.dump(cfg, f, indent=2)
-    print("✅ Config saved.")
+    print("✓ Config saved.")
 
 
 def get_client(cfg: dict) -> genai.Client:
     key = cfg.get("api_key") or os.environ.get("GOOGLE_API_KEY", "")
     if not key:
-        print("\n⚠️  No Gemini API key found.")
+        print("\n✘ No Gemini API key found.")
         print("   Get one free at: https://aistudio.google.com/app/apikey")
         key = input("   Paste your Gemini API key: ").strip()
         cfg["api_key"] = key
@@ -117,10 +117,10 @@ def slugify(text: str) -> str:
 def resolve_vault(cfg: dict) -> Path:
     vault = cfg.get("vault_path", "").strip()
     if not vault or not Path(vault).is_dir():
-        print("\n📁 Vault path not set or not found.")
+        print("\n🗁 Vault path not set or not found.")
         vault = input("   Enter the full path to your Obsidian vault: ").strip()
         if not Path(vault).is_dir():
-            print(f"   ❌ '{vault}' is not a valid directory.")
+            print(f"   ⚠︎ '{vault}' is not a valid directory.")
             sys.exit(1)
         cfg["vault_path"] = vault
         save_config(cfg)
@@ -153,7 +153,7 @@ def generate_note(client: genai.Client, topic: str, template_key: str) -> str:
         "and [[wikilinks]] when referencing related concepts."
     )
     user = template["prompt"].format(topic=topic)
-    print(f"\n🤖 Generating '{template['label']}' note…", end=" ", flush=True)
+    print(f"\n▰▰▰▱ Generating '{template['label']}' note…", end=" ", flush=True)
     result = gemini_ask(client, system, user, max_tokens=1500)
     print("done.")
     return result
@@ -168,7 +168,7 @@ def improve_note(client: genai.Client, note_path: Path) -> str:
         "suggest [[wikilinks]] for key concepts, and ensure tags exist at the bottom. "
         "Return ONLY the improved Markdown — no commentary."
     )
-    print(f"\n🔍 Improving '{note_path.name}'…", end=" ", flush=True)
+    print(f"\n🔍︎ Improving '{note_path.name}'…", end=" ", flush=True)
     result = gemini_ask(client, system, original, max_tokens=2000)
     print("done.")
     return result
@@ -180,7 +180,7 @@ def chat_with_note(client: genai.Client, note_path: Optional[Path]) -> None:
 
     if note_path:
         context = note_path.read_text(encoding="utf-8")
-        print(f"\n💬 Chat assistant — context: {note_path.name}")
+        print(f"\n🗪 Chat assistant — context: {note_path.name}")
         print("   Ask questions, request expansions, or type 'done' to exit.\n")
         # Seed history with the note
         history.append(types.Content(
@@ -193,7 +193,7 @@ def chat_with_note(client: genai.Client, note_path: Optional[Path]) -> None:
         ))
         print("Assistant: Got it! I've read your note. How can I help you improve or expand it?\n")
     else:
-        print("\n💬 General writing assistant. Type 'done' to exit.\n")
+        print("\n🗪 General writing assistant. Type 'done' to exit.\n")
 
     system = (
         "You are a helpful Obsidian writing assistant. "
@@ -215,7 +215,7 @@ def chat_with_note(client: genai.Client, note_path: Optional[Path]) -> None:
         user_input = input("You: ").strip()
         if user_input.lower() in ("done", "exit", "quit", ""):
             if user_input.lower() in ("done", "exit", "quit"):
-                print("👋 Exiting chat.")
+                print("(˶ᵔᗜᵔ˶)ﾉﾞ Exiting chat.")
                 break
             continue
         response = chat.send_message(user_input)
@@ -235,9 +235,9 @@ def auto_tag_note(client: genai.Client, note_path: Path) -> None:
     if tags not in original:
         updated = original.rstrip() + f"\n\n{tags}\n"
         note_path.write_text(updated, encoding="utf-8")
-        print(f"🏷️  Tags added: {tags}")
+        print(f"🏷  Tags added: {tags}")
     else:
-        print("ℹ️  Tags already present — skipped.")
+        print("！ Tags already present — skipped.")
 
 
 def save_note(vault: Path, title: str, content: str) -> Path:
@@ -254,7 +254,7 @@ def save_note(vault: Path, title: str, content: str) -> Path:
 # ── UI ────────────────────────────────────────────────────────────────────────
 
 def pick_template() -> str:
-    print("\n📄 Choose a template:")
+    print("\n⫶☰ Choose a template:")
     keys = list(TEMPLATES.keys())
     for i, k in enumerate(keys, 1):
         print(f"   {i}. {TEMPLATES[k]['label']}")
@@ -262,15 +262,15 @@ def pick_template() -> str:
         choice = input("   Enter number: ").strip()
         if choice.isdigit() and 1 <= int(choice) <= len(keys):
             return keys[int(choice) - 1]
-        print("   ⚠️  Invalid choice.")
+        print("   ⚠︎  Invalid choice.")
 
 
 def pick_note(vault: Path) -> Optional[Path]:
     notes = sorted(vault.glob("*.md"))
     if not notes:
-        print("   ℹ️  No .md files found in vault root.")
+        print("   ！  No .md files found in vault root.")
         return None
-    print("\n📂 Notes in vault root:")
+    print("\n🗁 Notes in vault root:")
     for i, n in enumerate(notes[:20], 1):
         print(f"   {i:2}. {n.name}")
     if len(notes) > 20:
@@ -281,7 +281,7 @@ def pick_note(vault: Path) -> Optional[Path]:
             return None
         if choice.isdigit() and 1 <= int(choice) <= len(notes):
             return notes[int(choice) - 1]
-        print("   ⚠️  Invalid choice.")
+        print("   ⚠︎  Invalid choice.")
 
 
 def main_menu(cfg: dict) -> None:
@@ -300,12 +300,12 @@ def main_menu(cfg: dict) -> None:
     print(f"  Vault: {vault}\n")
 
     options = {
-        "1": "✨ Generate a new note from template",
-        "2": "🔧 Improve an existing note",
-        "3": "💬 AI chat assistant (with or without a note)",
-        "4": "🏷️  Auto-tag an existing note",
-        "5": "⚙️  Settings",
-        "0": "🚪 Exit",
+        "1": "✎ᝰ. Generate a new note from template",
+        "2": "🛠 Improve an existing note",
+        "3": "🗫 AI chat assistant (with or without a note)",
+        "4": "🏷 Auto-tag an existing note",
+        "5": "⚙︎ Settings",
+        "0": "➜] Exit",
     }
 
     while True:
@@ -321,7 +321,7 @@ def main_menu(cfg: dict) -> None:
             tpl = pick_template()
             content = generate_note(client, topic, tpl)
             dest = save_note(vault, topic, content)
-            print(f"\n✅ Note saved: {dest}")
+            print(f"\n✔ Note saved: {dest}")
 
         elif choice == "2":
             note = pick_note(vault)
@@ -331,7 +331,7 @@ def main_menu(cfg: dict) -> None:
             backup = note.with_suffix(".bak.md")
             backup.write_text(note.read_text(encoding="utf-8"), encoding="utf-8")
             note.write_text(improved, encoding="utf-8")
-            print(f"✅ Improved '{note.name}' (backup: {backup.name})")
+            print(f"✔ Improved '{note.name}' (backup: {backup.name})")
 
         elif choice == "3":
             print("   Load a note as context? (y/n)")
@@ -345,7 +345,7 @@ def main_menu(cfg: dict) -> None:
                 auto_tag_note(client, note)
 
         elif choice == "5":
-            print(f"\n⚙️  Current vault: {vault}")
+            print(f"\n⚙︎ Current vault: {vault}")
             print("   Press Enter to keep, or type a new path:")
             new_vault = input("   > ").strip()
             if new_vault and Path(new_vault).is_dir():
@@ -354,10 +354,10 @@ def main_menu(cfg: dict) -> None:
                 save_config(cfg)
 
         elif choice == "0":
-            print("\n👋 Goodbye!\n")
+            print("\n➜] Goodbye!\n")
             break
         else:
-            print("   ⚠️  Unknown option.")
+            print("   ⚠︎  Unknown option.")
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
