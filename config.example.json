@@ -1,7 +1,7 @@
 {
-  "vault_path": "/home/renata/ObsidianVault",
+  "vault_path": "YOUR_PATH_HERE",
   "gemini_api_key": "YOUR_API_KEY_HERE",
   "model": "gemini-2.5-flash",
-  "language": "es",
+  "language": "en",
   "match_threshold": 85
 }
