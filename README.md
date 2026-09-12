@@ -80,7 +80,7 @@ You'll see a menu with 4 options:
 **Linux / macOS**, add an alias to your shell config (`~/.bashrc` or `~/.zshrc`):
 
 ```bash
-echo 'alias notaia="cd /path/to/obsidian_ai_notes && source venv/bin/activate && python3 main.py"' >> ~/.bashrc
+echo 'alias ainote="cd /path/to/obsidian_ai_notes && source venv/bin/activate && python3 main.py"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
