@@ -4,23 +4,31 @@ Python script that generates notes with AI (Gemini), lets you pick the vault
 folder to save them in, and automatically links key concepts with
 `[[wikilinks]]` to existing notes (or creates stub notes if they don't exist yet).
 
-## Installation on Linux Mint 22.2 Cinnamon
+Cross-platform: works on Linux, macOS, and Windows, since it's plain Python
+with no OS-specific dependencies.
 
-1. Make sure you have Python 3 and pip (Mint 22.2 already includes them, but just in case):
+## Requirements
 
+- Python 3.10 or newer
+- A free Gemini API key (get one at https://aistudio.google.com/apikey)
+
+## Installation
+
+1. Clone or download this repository, then open a terminal inside the project folder.
+
+2. (Recommended) Create a virtual environment, so dependencies stay isolated
+   from your system Python:
+
+**Linux / macOS:**
 ```bash
-python3 --version
-sudo apt update
-sudo apt install python3-pip python3-venv -y
-```
-
-2. Go into the project folder and create a virtual environment (recommended
-   so you don't mix packages with your system Python):
-
-```bash
-cd obsidian_ai_notes
 python3 -m venv venv
 source venv/bin/activate
+```
+
+**Windows (Command Prompt / PowerShell):**
+```powershell
+python -m venv venv
+venv\Scripts\activate
 ```
 
 3. Install the dependencies:
@@ -29,28 +37,28 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Get a free Gemini API key at https://aistudio.google.com/apikey
-
-5. Create your config file:
+4. Create your config file:
 
 ```bash
 cp config.example.json config.json
-nano config.json
 ```
 
-Fill in:
-- `vault_path`: absolute path to your Obsidian vault, e.g. `/home/renata/Documents/MyVault`
-- `gemini_api_key`: your API key
+(On Windows: `copy config.example.json config.json`)
+
+Then open `config.json` in any text editor and fill in:
+- `vault_path`: absolute path to your Obsidian vault (e.g. `/home/you/Documents/MyVault` on Linux/macOS, or `C:\Users\You\Documents\MyVault` on Windows)
+- `gemini_api_key`: your Gemini API key
 - `model`: leave it as `gemini-2.5-flash` (fast and cheap) or change it to another Gemini model
-- `language`: the language you want generated notes written in (e.g. `es`, `en`) - independent from the code's language
+- `language`: the language you want generated notes written in (e.g. `es`, `en`) — independent from the code's language
 - `match_threshold`: how strict the concept-matching against existing notes is (0-100, 85 is a good default)
 
 ## Usage
 
 ```bash
-source venv/bin/activate   # if not already active
 python3 main.py
 ```
+
+(On Windows: `python main.py`)
 
 You'll see a menu with 4 options:
 
@@ -67,12 +75,12 @@ You'll see a menu with 4 options:
 4. **Auto-tag an existing note**: the AI suggests tags based on the content,
    and you confirm whether to add them.
 
-## For not having to activate the venv every time
+## Optional: a shortcut to launch it faster
 
-You can create an alias in your `~/.bashrc`:
+**Linux / macOS**, add an alias to your shell config (`~/.bashrc` or `~/.zshrc`):
 
 ```bash
-echo 'alias notaia="cd ~/obsidian_ai_notes && source venv/bin/activate && python3 main.py"' >> ~/.bashrc
+echo 'alias notaia="cd /path/to/obsidian_ai_notes && source venv/bin/activate && python3 main.py"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -89,6 +97,12 @@ Then, from anywhere in the terminal, just type `notaia`.
    the text with `[[Real note title]]`.
 4. If there's no match, it asks whether you want to create an empty stub
    note for that concept (so the link isn't broken, and you fill it in later).
+
+## Security note
+
+Your API key is stored in `config.json` in plain text. **Do not commit
+`config.json` to GitHub.** The included `.gitignore` handles this
+automatically — just don't delete it.
 
 ## Ideas for extending later
 
