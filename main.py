@@ -164,14 +164,14 @@ def flow_generate_or_complete(config: dict, vault_path: Path):
             title=existing_path.stem,
             current_content=current_content,
             topic=topic,
-            language=config.get("language", "es"),
+            language=config.get("language", "en"),
         )
     else:
         data = generate_note(
             api_key=config["gemini_api_key"],
             model=config.get("model", "gemini-2.5-flash"),
             topic=topic,
-            language=config.get("language", "es"),
+            language=config.get("language", "en"),
             template_instructions=TEMPLATES.get(template_chosen, ""),
         )
 
@@ -233,7 +233,7 @@ def flow_improve_note(config: dict, vault_path: Path):
         api_key=config["gemini_api_key"],
         model=config.get("model", "gemini-2.5-flash"),
         current_content=current_content,
-        language=config.get("language", "es"),
+        language=config.get("language", "en"),
     )
 
     existing_notes = scan_existing_notes(vault_path)
@@ -269,7 +269,7 @@ def flow_autotag(config: dict, vault_path: Path):
         api_key=config["gemini_api_key"],
         model=config.get("model", "gemini-2.5-flash"),
         content=current_content,
-        language=config.get("language", "es"),
+        language=config.get("language", "en"),
     )
 
     print(f"Suggested tags: {new_tags}")
@@ -294,7 +294,7 @@ def flow_chat(config: dict, vault_path: Path):
         api_key=config["gemini_api_key"],
         model=config.get("model", "gemini-2.5-flash"),
         note_context=note_context,
-        language=config.get("language", "es"),
+        language=config.get("language", "en"),
     )
 
     if note_context:
